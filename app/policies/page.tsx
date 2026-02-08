@@ -80,7 +80,7 @@ export default function PoliciesPage() {
         },
         {
           heading: 'Shipping Costs',
-          text: 'Shipping costs are calculated based on your location and order weight. Free standard shipping is available on orders over $100. Express shipping rates are displayed at checkout before you complete your purchase.',
+          text: 'Shipping costs are calculated based on your location and order weight. Free standard shipping is available on orders over ₹1000. Express shipping rates are displayed at checkout before you complete your purchase.',
         },
         {
           heading: 'Processing Time',

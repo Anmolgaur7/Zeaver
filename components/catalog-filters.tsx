@@ -117,7 +117,7 @@ export function CatalogFilters({ onFilterChange }: FilterProps) {
         </button>
         {expandedFilters.includes('price') && (
           <div className="mt-4 space-y-3">
-            {['Under $25', '$25 - $50', '$50 - $100', 'Over $100'].map((range) => (
+            {['Under ₹500', '₹500 - ₹1000', '₹1000 - ₹5000', 'Over ₹5000'].map((range) => (
               <label key={range} className="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" className="w-4 h-4" />
                 <span className="text-sm font-body text-foreground">{range}</span>

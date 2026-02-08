@@ -21,21 +21,21 @@ export default function AccountPage() {
     {
       id: '#ZEA-001',
       date: 'February 1, 2024',
-      total: '$139.98',
+      total: '₹1399',
       status: 'Delivered',
       items: 'Statement Necklace, Diamond Earrings',
     },
     {
       id: '#ZEA-002',
       date: 'January 15, 2024',
-      total: '$89.99',
+      total: '₹899',
       status: 'Delivered',
       items: 'Gold Bracelet',
     },
     {
       id: '#ZEA-003',
       date: 'January 8, 2024',
-      total: '$49.99',
+      total: '₹499',
       status: 'Delivered',
       items: 'Pearl Necklace',
     },
@@ -125,7 +125,7 @@ export default function AccountPage() {
                   </div>
                   <div className="bg-white rounded-lg border border-border p-6">
                     <p className="text-sm text-muted-foreground font-body uppercase tracking-widest mb-2">Total Spent</p>
-                    <p className="font-display text-3xl font-bold">$279.96</p>
+                    <p className="font-display text-3xl font-bold">₹2799</p>
                   </div>
                   <div className="bg-white rounded-lg border border-border p-6">
                     <p className="text-sm text-muted-foreground font-body uppercase tracking-widest mb-2">Loyalty Points</p>

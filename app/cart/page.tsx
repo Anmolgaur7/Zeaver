@@ -129,9 +129,9 @@ export default function CartPage() {
                           {/* Price */}
                           <div className="text-right">
                             <p className="text-lg font-bold text-primary">
-                              ${(item.price * item.quantity).toFixed(2)}
+                              ₹{(item.price * item.quantity).toFixed(2)}
                             </p>
-                            <p className="text-sm text-muted-foreground">${item.price} each</p>
+                            <p className="text-sm text-muted-foreground">₹{item.price} each</p>
                           </div>
                         </div>
                       </div>
@@ -163,24 +163,24 @@ export default function CartPage() {
                   <div className="space-y-4 border-b border-border pb-6">
                     <div className="flex justify-between items-center">
                       <span className="font-body text-foreground">Subtotal</span>
-                      <span className="font-bold">${subtotal.toFixed(2)}</span>
+                      <span className="font-bold">₹{subtotal.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="font-body text-foreground">
                         Shipping {shipping === 0 && <span className="text-accent text-sm">(Free)</span>}
                       </span>
-                      <span className="font-bold">${shipping.toFixed(2)}</span>
+                      <span className="font-bold">₹{shipping.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="font-body text-foreground">Tax (estimated)</span>
-                      <span className="font-bold">${tax.toFixed(2)}</span>
+                      <span className="font-bold">₹{tax.toFixed(2)}</span>
                     </div>
                   </div>
 
                   <div className="flex justify-between items-center pt-4">
                     <span className="font-display text-xl font-bold text-primary">Total</span>
                     <span className="font-display text-2xl font-bold text-primary">
-                      ${total.toFixed(2)}
+                      ₹{total.toFixed(2)}
                     </span>
                   </div>
 
@@ -208,7 +208,7 @@ export default function CartPage() {
                   </details>
 
                   <div className="bg-white/50 border border-border rounded p-4 space-y-2 text-sm">
-                    <p className="font-body font-medium text-primary">✓ Free shipping on orders over $50</p>
+                    <p className="font-body font-medium text-primary">✓ Free shipping on orders over ₹500</p>
                     <p className="font-body text-muted-foreground text-xs">
                       Quality guaranteed or your money back
                     </p>

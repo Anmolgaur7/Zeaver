@@ -30,6 +30,13 @@ export const metadata: Metadata = {
   generator: 'v0.app',
 }
 
+import { Header } from '@/components/header'
+import { Footer } from '@/components/footer'
+
+import { CartProvider } from '@/context/cart-context'
+import { CartDrawer } from '@/components/cart-drawer'
+import { Toaster } from '@/components/ui/sonner'
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -37,7 +44,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfair.variable} ${lora.variable}`} suppressHydrationWarning>
-      <body className="font-body antialiased bg-background text-foreground">{children}</body>
+      <body className="font-body antialiased bg-background text-foreground">
+        <CartProvider>
+          <Header />
+          {children}
+          <Footer />
+          <CartDrawer />
+          <Toaster />
+        </CartProvider>
+      </body>
     </html>
   )
 }

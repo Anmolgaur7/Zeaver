@@ -1,82 +1,47 @@
 'use client';
 
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
 import { CatalogFilters } from '@/components/catalog-filters';
 import { ProductCard } from '@/components/product-card';
-import { useState } from 'react';
-
-const SAMPLE_PRODUCTS = [
-  {
-    id: '1',
-    name: 'Classic Pearl Necklace',
-    price: 49.99,
-    category: 'Necklaces',
-    rating: 4.8,
-    isNew: true,
-  },
-  {
-    id: '2',
-    name: 'Crystal Drop Earrings',
-    price: 29.99,
-    category: 'Earrings',
-    rating: 4.6,
-    isNew: true,
-  },
-  {
-    id: '3',
-    name: 'Gold Bangle Bracelet',
-    price: 39.99,
-    category: 'Bracelets',
-    rating: 4.7,
-  },
-  {
-    id: '4',
-    name: 'Elegant Statement Ring',
-    price: 34.99,
-    category: 'Rings',
-    rating: 4.5,
-  },
-  {
-    id: '5',
-    name: 'Three Piece Jewelry Set',
-    price: 79.99,
-    category: 'Sets',
-    rating: 4.9,
-    isNew: true,
-  },
-  {
-    id: '6',
-    name: 'Geometric Pendant Necklace',
-    price: 44.99,
-    category: 'Necklaces',
-    rating: 4.4,
-  },
-  {
-    id: '7',
-    name: 'Vintage Inspired Bracelet',
-    price: 54.99,
-    category: 'Bracelets',
-    rating: 4.7,
-  },
-  {
-    id: '8',
-    name: 'Cubic Zirconia Studs',
-    price: 24.99,
-    category: 'Earrings',
-    rating: 4.6,
-  },
-  {
-    id: '9',
-    name: 'Cocktail Ring',
-    price: 59.99,
-    category: 'Rings',
-    rating: 4.8,
-  },
-];
+import { useState, useEffect } from 'react';
+import { getProducts, getCategories } from '@/lib/api';
 
 export default function CatalogPage() {
-  const [products, setProducts] = useState(SAMPLE_PRODUCTS);
+  const [products, setProducts] = useState<any[]>([]);
+  const [allProducts, setAllProducts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  // Load products and categories from Supabase
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setLoading(true);
+        const [productsData, categoriesData] = await Promise.all([
+          getProducts(),
+          getCategories()
+        ]);
+        setAllProducts(productsData);
+        setProducts(productsData);
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error('Error loading products:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  // Filter products by category
+  const handleCategoryFilter = (category: string | null) => {
+    setSelectedCategory(category);
+    if (category) {
+      setProducts(allProducts.filter(p => p.category === category));
+    } else {
+      setProducts(allProducts);
+    }
+  };
 
   const handleFilterChange = (filters: any) => {
     // Filter logic would go here
@@ -84,62 +49,71 @@ export default function CatalogPage() {
   };
 
   return (
-    <main className="min-h-screen">
-      <Header />
-
+    <main className="min-h-screen bg-background">
       {/* Page Header */}
-      <div className="pt-24 pb-12 bg-secondary border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-4">
-            <p className="text-sm font-body tracking-widest text-muted-foreground uppercase">
-              Explore Our Collection
-            </p>
-            <h1 className="font-display text-5xl md:text-6xl font-bold text-primary">
-              Products
-            </h1>
-            <p className="font-body text-muted-foreground max-w-2xl">
-              Discover our carefully curated selection of luxury imitation jewelry, each piece
-              designed to elevate your style.
-            </p>
-          </div>
+      <div className="bg-secondary py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-sm font-body tracking-widest text-muted-foreground uppercase mb-4">
+            Shop Our Collections
+          </p>
+          <h1 className="font-display text-4xl md:text-5xl font-bold text-primary text-balance">
+            Curated Elegance
+          </h1>
         </div>
       </div>
 
-      {/* Catalog Section */}
-      <div className="py-12 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            {/* Filters Sidebar */}
-            <aside className="lg:col-span-1">
-              <div className="sticky top-24 space-y-6">
-                <div>
-                  <h3 className="font-display text-xl font-bold text-primary mb-4">Filter</h3>
-                  <CatalogFilters onFilterChange={handleFilterChange} />
-                </div>
-              </div>
-            </aside>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex flex-col lg:flex-row gap-12">
+          {/* Filters Sidebar */}
+          <div className="lg:w-1/4">
+            <CatalogFilters 
+              categories={categories} 
+              selectedCategory={selectedCategory}
+              onSelectCategory={handleCategoryFilter}
+            />
+          </div>
 
-            {/* Products Grid */}
-            <div className="lg:col-span-3">
-              {/* Results Info */}
-              <div className="flex items-center justify-between mb-8 pb-6 border-b border-border">
-                <p className="text-sm font-body text-muted-foreground">
-                  Showing <span className="font-bold">{products.length}</span> products
+          {/* Product Grid */}
+          <div className="lg:w-3/4">
+            <div className="space-y-8">
+              {/* Sort & Results Count */}
+              <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pb-8 border-b border-border">
+                <p className="font-body text-muted-foreground">
+                  Showing <span className="font-bold text-primary">{products.length}</span> results
                 </p>
-                <div className="text-sm font-body text-muted-foreground">
-                  View as:{' '}
-                  <button className="ml-2 text-primary hover:text-accent font-medium">
-                    Grid
-                  </button>
+                <div className="flex items-center gap-4">
+                  <span className="font-body text-sm font-medium text-muted-foreground">Sort by:</span>
+                  <select className="bg-transparent border-none font-body font-medium text-primary focus:ring-0 cursor-pointer">
+                    <option>Featured</option>
+                    <option>Price: Low to High</option>
+                    <option>Price: High to Low</option>
+                    <option>Newest Arrivals</option>
+                  </select>
                 </div>
               </div>
 
               {/* Products */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {products.map((product) => (
-                  <ProductCard key={product.id} {...product} />
-                ))}
-              </div>
+              {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {[...Array(6)].map((_, i) => (
+                    <div key={i} className="animate-pulse">
+                      <div className="bg-gray-200 h-64 rounded-lg mb-4"></div>
+                      <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                      <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                    </div>
+                  ))}
+                </div>
+              ) : products.length === 0 ? (
+                <div className="text-center py-16">
+                  <p className="text-lg text-muted-foreground">No products found</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {products.map((product) => (
+                    <ProductCard key={product.id} {...product} />
+                  ))}
+                </div>
+              )}
 
               {/* Load More */}
               <div className="mt-16 text-center">
@@ -151,8 +125,6 @@ export default function CatalogPage() {
           </div>
         </div>
       </div>
-
-      <Footer />
     </main>
   );
 }

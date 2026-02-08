@@ -8,6 +8,7 @@ interface ProductCardProps {
   id: string;
   name: string;
   price: number;
+  originalPrice?: number;
   category: string;
   rating?: number;
   isNew?: boolean;
@@ -17,11 +18,16 @@ export function ProductCard({
   id,
   name,
   price,
+  originalPrice,
   category,
   rating = 4.5,
   isNew = false,
 }: ProductCardProps) {
   const [isFavorited, setIsFavorited] = useState(false);
+
+  const discount = originalPrice 
+    ? Math.round(((originalPrice - price) / originalPrice) * 100)
+    : 0;
 
   return (
     <div className="group">
@@ -34,7 +40,12 @@ export function ProductCard({
         {/* Badges */}
         <div className="absolute top-4 right-4 flex flex-col gap-2">
           {isNew && (
-            <div className="bg-accent text-primary px-3 py-1 text-xs font-bold">NEW</div>
+            <div className="bg-accent text-primary px-3 py-1 text-xs font-bold shadow-sm">NEW</div>
+          )}
+          {discount > 0 && (
+            <div className="bg-primary text-primary-foreground px-3 py-1 text-xs font-bold shadow-sm">
+              {discount}% OFF
+            </div>
           )}
           <button
             onClick={() => setIsFavorited(!isFavorited)}
@@ -87,7 +98,7 @@ export function ProductCard({
 
         {/* Price */}
         <div className="flex items-center justify-between pt-2 border-t border-border">
-          <span className="text-lg font-bold text-primary">${price.toFixed(2)}</span>
+          <span className="text-lg font-bold text-primary">₹{price.toFixed(2)}</span>
           <button className="text-xs font-body font-medium text-primary hover:text-accent transition-colors">
             Add to Cart
           </button>

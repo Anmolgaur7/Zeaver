@@ -6,14 +6,14 @@ export function ProductMarquee() {
   const [isPaused, setIsPaused] = useState(false);
 
   const products = [
-    { name: 'Classic Pearl Necklace', price: '$59.99', tag: 'Best Seller' },
-    { name: 'Gold Chain Bracelet', price: '$39.99', tag: 'New' },
-    { name: 'Diamond Studs', price: '$49.99', tag: 'Trending' },
-    { name: 'Elegant Ring Set', price: '$79.99', tag: 'Limited' },
-    { name: 'Vintage Pendant', price: '$54.99', tag: 'Sale' },
-    { name: 'Statement Earrings', price: '$44.99', tag: 'Popular' },
-    { name: 'Rose Gold Bangle', price: '$64.99', tag: 'New' },
-    { name: 'Crystal Choker', price: '$69.99', tag: 'Exclusive' },
+    { name: 'Classic Pearl Necklace', price: '₹599', tag: 'Best Seller' },
+    { name: 'Gold Chain Bracelet', price: '₹399', tag: 'New' },
+    { name: 'Diamond Studs', price: '₹499', tag: 'Trending' },
+    { name: 'Elegant Ring Set', price: '₹799', tag: 'Limited' },
+    { name: 'Vintage Pendant', price: '₹549', tag: 'Sale' },
+    { name: 'Statement Earrings', price: '₹449', tag: 'Popular' },
+    { name: 'Rose Gold Bangle', price: '₹649', tag: 'New' },
+    { name: 'Crystal Choker', price: '₹699', tag: 'Exclusive' },
   ];
 
   // Duplicate products for seamless loop
